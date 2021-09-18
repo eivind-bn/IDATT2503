@@ -30,6 +30,10 @@ public class RegMatch implements Server {
             int i = 0;
             @Override
             public void run() {
+                if(session.isClosed()){
+                    this.cancel();
+                    return;
+                }
                 try {
                     switch (i){
                         case 0:
@@ -111,7 +115,9 @@ public class RegMatch implements Server {
                     output.dispatch(manual);
                     break;
                 case quit:
+                    timer.cancel();
                     output.dispatch("Goodbye!\r\n");
+                    session.close();
             }
         } else if (!in.isEmpty()) output.dispatch(fallbackMessage);
         timer.cancel();

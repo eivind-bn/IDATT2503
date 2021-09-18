@@ -32,7 +32,7 @@ public class EasySocket {
         }
     }
 
-    private static void connect(Server context, ServerSocket server) throws IOException, InterruptedException {
+    private static void connect(Server context, ServerSocket server) throws IOException {
         Socket session = server.accept();
         BufferedInputStream i = new BufferedInputStream(session.getInputStream());
         BufferedOutputStream o = new BufferedOutputStream(session.getOutputStream());

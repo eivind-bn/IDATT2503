@@ -1,6 +1,5 @@
 package com.company;
 
-import javax.jws.Oneway;
 import java.io.IOException;
 
 public class Main {
