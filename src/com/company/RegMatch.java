@@ -55,7 +55,7 @@ public class RegMatch implements Server {
                             output.dispatch(("\r\n^FLAG^" + UUID.randomUUID().toString().replace("-","") + "$FLAG$\r\n"));
                             break;
                         case 6:
-                            output.dispatch("Error! System not responding. Terminating process.\r\n");
+                            output.dispatch("Error! Child thread not responding. Terminating process.\r\n");
                             session.close();
                             System.exit(-1);
                         default: this.cancel();
