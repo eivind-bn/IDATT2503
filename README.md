@@ -7,13 +7,12 @@ https://github.com/eivind-bn/IDATT2503
 
 Launch the application in the terminal as follows:
 
-'java -jar RegMatch [optional port-number]'
+'java -jar RegMatch [port number]'
 
-The application will default to port 8080 if provided argument is missing, or malformed.
 Afterwards, simply connect to the server by telnet, or any other suitable alternatives.
 The interface will present supported commands once connected. Telnet command:
 
-‘telnet localhost [your port number]’.
+‘telnet localhost [port number]’.
 
 ### Regex example:
 
@@ -27,21 +26,19 @@ Returns false.
 
 ### Hint:
 
-A subtle hint is implicitly provided in the challenge. For instance the changelog in the
-terminal.
+A subtle hint is implicitly provided in the changelog via the command-line-interface once connected.
 
 ### Explicit hint: (SPOILER ALERT!)
 
-The system rejects long patterns and match strings. Why? Is there any loophole, or
+1. The system rejects long patterns and match strings. Why? Is there any loophole, or
 oversight?
 
-Time complexity is of the essence. Can you worsen it somehow?
+2. Time complexity is of the essence. Can you worsen it somehow?
 
-Size doesn't matter. Evil regexes do.
+3. Size doesn't matter. Evil regexes do.
 
 ### Difficulty:
 This challenge might prove difficult if you’re unfamiliar with regular expressions, 
 but moderate if you have mastered the arts of google. 
-Beware the pitfalls of regexes, as powerful and eye pleasing they may be, 
-they can easily drive you to madness.
+Happy hacking, and enjoy your stay at regex hell.
 
