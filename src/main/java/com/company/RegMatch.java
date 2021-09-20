@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import static com.company.Constants.*;
 import static com.company.Constants.fallbackMessage;
@@ -127,7 +128,12 @@ public class RegMatch implements Server {
         if (regex.length() > 50) return "Pattern of: " + regex.length() + " codepoints exceeds limit of 50.";
         if (arg.length() > 1000)
             return "String to match contains: " + arg.length() + " codepoints. Max permitted is 1000.";
-        Matcher pattern = Pattern.compile(regex).matcher(arg);
+        Matcher pattern;
+        try {
+            pattern = Pattern.compile(regex).matcher(arg);
+        } catch (PatternSyntaxException e){
+            return "Syntax error: " + e.getDescription();
+        }
         if (pattern.find()) {
             StringBuilder stringBuilder = new StringBuilder(1024);
             for (int i = 1; i < pattern.groupCount() + 1; i++) {
@@ -142,7 +148,11 @@ public class RegMatch implements Server {
         if (regex.length() > 50) return "Pattern of: " + regex.length() + " codepoints exceeds limit of 50.";
         if (arg.length() > 1000)
             return "String to match contains: " + arg.length() + " codepoints. Max permitted is 1000.";
-        return Pattern.compile(regex).matcher(arg).matches() ? "True" : "False";
+        try {
+            return Pattern.compile(regex).matcher(arg).matches() ? "True" : "False";
+        } catch (PatternSyntaxException e){
+            return "Syntax error: " + e.getDescription();
+        }
     }
 
     private static String filterDocLines(String search) {

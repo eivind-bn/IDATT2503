@@ -69,7 +69,7 @@ public class Constants {
                     +"))");
 
     public static final String welcomeMessage =
-            "Welcome to RegMatch 1.0.1 (Corretto-1.8 build, Java 1.8)\r\n" +
+            "Welcome to RegMatch 1.0.1 (openjdk16 build, Java 16)\r\n" +
             "Type 'help' to print this message.\r\n" +
             "Type 'cmd' to print supported commands along with synopsis\r\n" +
             "Type 'regex' to print the javadoc associated with the internal regex engine syntax.\r\n" +
