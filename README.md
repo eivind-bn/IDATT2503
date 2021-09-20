@@ -1,16 +1,5 @@
 # RegMatch - Capture the flag challenge
 
-###Summary of vulnerability
-
-This challenge involves exploits present in legacy regex engines, which could yield denial-of-service (Dos), or more specifically, ReDos.
-Regex is a very versatile tool, and allows matching of complex patterns in various text encoding.
-Typically, a regex is used internally in API’s to verify user input, for instance check validity of email, or if password satisfies constraints.
-Regular expressions (Regex) typically also support extraction via so-called capturing groups.
-
-Typically, users do not influence the patterns (regexes), but the input which are validated.
-This web app naively accepts user generated regexes, and matches it on whatever data the user provides.
-The exploit present cannot leak data, or corrupt the system, but may cause denial-of-service which can be costly nowadays.
-
 ###How to play?
 
 To play the challenge, simply download the RegMatch.jar from:
