@@ -2,24 +2,22 @@ package com.company;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class Constants {
 
-    static final String prompReady = "\r\n\r\nregMatch> ";
+    static final String promptReady = "\r\n\r\nregMatch> ";
     static final String cmd = "cmd";
     static final String arg1 = "arg1";
     static final String arg2 = "arg2";
-    static final String fallbackMessage = "Syntax error. Ensure operator/commands is supported.\n" +
-            "Also remember to surround literal, i.e. regexes and regular strings with single quotes (').\n" +
-            "This enforcement is placed so the parser can differ between whitespace patterns/strings,\n" +
-            "and separations in the command.";
+    static final String fallbackMessage = "Invalid command. Did you forget single-quotes?";
 
     enum _2Args {
-        group("Returns grouped regex matches.","'[regex]' group '[value-string]'"),
+        group("Scans and captures first group occurrence.","'[regex]' group '[value-string]'"),
         matches("Tests if string matches regex pattern.","'[regex]' matches '[value-string]'"),
-        contains("Tests if main-string contains substring","'[main-string]' contains '[substring]'"),
-        indexOf("Returns first occurrence index of substring","'[main-string]' indexOf '[substring]'");
+        contains("Tests if string contains substring","'[main-string]' contains '[substring]'"),
+        indexOf("Returns index of substring if present, or -1 if absent.","'[main-string]' indexOf '[substring]'");
 
         public final String synopsis;
         public final String description;
@@ -35,7 +33,7 @@ public class Constants {
                     +")) +'(?<"+arg2+">.+)'");
 
     enum _1Args {
-        regex("Prints regex javadoc lines which contains the provided substring.", "regex '[substring]'");
+        grep("Prints lines from regex-javadoc that contains specified substring.", "grep '[substring]'");
 
         public final String synopsis;
         public final String description;
@@ -51,9 +49,9 @@ public class Constants {
                     +")) +'(?<"+arg1+">.+)'");
 
     enum _0Args {
-        regex("Prints javadoc associated with regular expression syntax,"),
+        doc("Prints regex-compiler javadoc. Refer to this for syntax guidance."),
         cmd("Prints all available commands."),
-        changelog("Prints information regarding feature updates and security patches."),
+        releases("Prints release notes with security-patches/feature updates."),
         help("Prints welcoming message."),
         quit("Closes this session.");
 
@@ -68,41 +66,40 @@ public class Constants {
                     Arrays.stream(_0Args.values()).map(Enum::name).reduce((s, s2) -> s + "|" + s2).orElse("")
                     +"))");
 
-    public static final String welcomeMessage =
-            "Welcome to RegMatch 1.0.1 (Corretto-1.8 build, Java 1.8)\r\n" +
-            "Type 'help' to print this message.\r\n" +
-            "Type 'cmd' to print supported commands along with synopsis\r\n" +
-            "Type 'regex' to print the javadoc associated with the internal regex engine syntax.\r\n" +
-            "Type 'regex [search-string>]' to print lines from the javadoc which contains the specified string.\r\n" +
-            "Type 'changelog' to print information regarding updates.\r\n" +
-            "Type 'quit' to close this session";
+    public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 (openjdk16 build, Java 16)\r\n" +
+            "Summary of commands:\r\n" +
+            Arrays.stream(_0Args.values())
+                    .map(args -> args.name() + " - " + args.description)
+                    .reduce((s1, s2) -> s1 + "\r\n" + s2)
+                    .orElse("");
 
-    public static final String changelog =
+    public static final String releaseNote =
             "1.0.0 - Official release.\r\n" +
-            "1.0.1 - Security patch. Regular expressions may no longer exceed 50 codepoints to spare system resources. " +
-                    "Value strings are also limited to 1000 characters.";
+            "1.0.1 - Security patch. Regexes and non-regexes limited to 50 and 1000 characters respectively " +
+                    "to restrict resource-usage.";
 
     public static final String commands =
-            "NB: All commands which evaluates strings or regexes require single quite (') delimiters.\r\n" +
+            "PLEASE NOTE: All regexes or strings in general require single quote delimiters to be valid!\r\n" +
+                    "This applies to literals only, and not commands/operators. Example:\r\n\r\n" +
                     "Valid: '(a*)' group 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbb'\r\n" +
-                    "Invalid: (a*) group aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab\r\n\r\n" +
+                    "Invalid: (a*) group aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbb\r\n\r\n" +
                     Arrays.stream(_0Args.values())
                             .map(args -> args.name() + "  #  " + args.description)
                             .reduce((s, s2) -> s + "\r\n" + s2)
                             .orElse("") + "\r\n" +
                     Arrays.stream(_1Args.values())
-                            .map(args -> args.name() + "  #  " + args.description + "  -  " + args.synopsis)
+                            .map(args -> args.name() + "  #  " + args.description + "  #  " + args.synopsis)
                             .reduce((s, s2) -> s + "\r\n" + s2)
                             .orElse("") + "\r\n" +
                     Arrays.stream(_2Args.values())
-                            .map(args -> args.name() + "  #  " + args.description + "  -  " + args.synopsis)
+                            .map(args -> args.name() + "  #  " + args.description + "  #  " + args.synopsis)
                             .reduce((s, s2) -> s + "\r\n" + s2)
                             .orElse("");
 
 
     public static final String manual =
             "Summary of regular-expression constructs from the official Javadoc as of Sep 17. 2021:\n" +
-            "Full version can be found at https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html\n" +
+            "Complete version available here: https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html\n" +
             "\n" +
             "Construct:      Matches:\n" +
             "\n" +

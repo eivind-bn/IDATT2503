@@ -1,14 +1,12 @@
 package com.company;
 
-import java.io.IOException;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        int port = 8080;
-        try {
-            port = Integer.parseInt(args[0]);
-        } catch (IndexOutOfBoundsException | NumberFormatException ignored){}
-        EasySocket.start(new RegMatch(), port);
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        RegMatch.start(sc::nextLine, System.out::print);
     }
 }
