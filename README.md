@@ -1,60 +1,32 @@
 # RegMatch - Capture the flag challenge
 
-###Summary of vulnerability
+This repository contains a simple Cli Regex tool server with a not so simple exploit. This server is purposely 
+restrictive on user-input to limit the attack-vector scope. Your objective is to find any oversight or loophole left
+in the open.
 
-This challenge involves exploits present in legacy regex engines, which could yield denial-of-service (Dos), or more specifically, ReDos.
-Regex is a very versatile tool, and allows matching of complex patterns in various text encoding.
-Typically, a regex is used internally in API’s to verify user input, for instance check validity of email, or if password satisfies constraints.
-Regular expressions (Regex) typically also support extraction via so-called capturing groups.
-Regex is sort of like printf, but on steroids.
+The challenge consists of one flag only. Once the intended attack is performed successfully, the flag
+will be printed. No source code inspection necessary to acquire the flag.
 
-Typically, users do not influence the patterns (regexes), but the input which are validated.
-This web app naively accepts user generated regexes, and matches it on whatever data the user provides.
-The exploit present cannot leak data, or corrupt the system, but may cause denial-of-service which can be costly nowadays.
+## Difficulty:
+This challenge might prove difficult if you’re unfamiliar with regular expressions,
+but moderate if you have some familiarity with the constructs, and have mastered the arts of google.
 
-###How to play?
+## Setup instructions
 
-To play the challenge, simply download the RegMatch.jar from:
-https://github.com/eivind-bn/IDATT2503
+1. Download the latest RegMatch.jar file
+2. Start the process: 'java -jar RegMatch.jar'
 
-Launch the application in the terminal as follows:
+The server will interact with parent process directly through stdin/stdout, 
+so it should be executed through a terminal.
 
-'java -jar RegMatch [optional port-number]'
 
-The application will default to port 8080 if provided argument is missing, or malformed.
-Afterwards, simply connect to the server by telnet, or any other suitable alternatives.
-The interface will present supported commands once connected. Telnet command:
+## Hints (SPOILER ALERT)
 
-‘telnet localhost [your port number]’.
+1. The system rejects long patterns and match strings. Why? Is there any loophole, or oversight?
 
-### Regex example:
+2. Time complexity is of the essence. Can you worsen it somehow?
 
-'^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$' matches 'ola.nordmann@gmail.com'
+3. Length doesn't matter. Evil regexes do.
 
-Returns true.
 
-'^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$' matches 'øla.normann@gmail.com'
-
-Returns false.
-
-### Hint:
-
-Some subtle hints are implicitly provided in the challenge. 
-For instance the changelog in the terminal. 
-The other clue, but probably not a hint, is the runtime environment declared once connected. 
-This exploit was patched in the release of JDK9. This bytecode is compiled with JDK8. 
-
-### Explicit hint: (SPOILER ALERT!)
-
-The system rejects long patterns and match strings. Why? Is there any loophole, or oversight?
-
-Time complexity is of the essence. Can you worsen it somehow?
-
-Length doesn't matter. Evil regexes do.
-
-### Difficulty:
-This challenge might prove difficult if you’re unfamiliar with regular expressions, 
-but moderate if you have mastered the arts of google. 
-Beware the pitfalls of regexes, as powerful and eye pleasing they may be, 
-they can easily drive you to madness.
 
