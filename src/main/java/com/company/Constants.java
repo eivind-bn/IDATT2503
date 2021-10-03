@@ -28,12 +28,12 @@ public class Constants {
     }
 
     public static final Pattern _2arg =
-            Pattern.compile("'(?<"+arg1+">.+)' +(?<"+cmd+">("+
+            Pattern.compile("'(?<"+arg1+">.*)' +(?<"+cmd+">("+
                     Arrays.stream(_2Args.values()).map(Enum::name).reduce((s, s2) -> s + "|" + s2).orElse("")
-                    +")) +'(?<"+arg2+">.+)'");
+                    +")) +'(?<"+arg2+">.*)'");
 
     enum _1Args {
-        grep("Performs case-insensitive search, and print lines with match.", "grep '[substring]'");
+        grep("Performs case-insensitive search on regex javadoc, and print lines with search-match.", "grep '[substring]'");
 
         public final String synopsis;
         public final String description;
@@ -46,7 +46,7 @@ public class Constants {
     public static final Pattern _1arg =
             Pattern.compile("(?<"+cmd+">("+
                     Arrays.stream(_1Args.values()).map(Enum::name).reduce((s, s2) -> s + "|" + s2).orElse("")
-                    +")) +'(?<"+arg1+">.+)'");
+                    +")) +'(?<"+arg1+">.*)'");
 
     enum _0Args {
         doc("Prints regex-compiler javadoc. Refer to this for syntax guidance."),
@@ -67,7 +67,7 @@ public class Constants {
                     +"))");
 
     public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 (openjdk16 build, Java 16)\r\n" +
-            "Summary of commands:\r\n" +
+            "Getting started 101:\r\n" +
             Arrays.stream(_0Args.values())
                     .map(args -> args.name() + " - " + args.description)
                     .reduce((s1, s2) -> s1 + "\r\n" + s2)
@@ -79,8 +79,8 @@ public class Constants {
                     "to restrict resource-usage.";
 
     public static final String commands =
-            "PLEASE NOTE: All regexes or strings in general require single quote delimiters to be valid!\r\n" +
-                    "This applies to literals only, and not commands/operators. Example:\r\n\r\n" +
+            "PLEASE NOTE: Regexes or strings in general require single quote delimiters to be valid!\r\n" +
+                    "This does not apply to commands, but only arguments.\r\n\r\n" +
                     "Valid: '(a*)' group 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbb'\r\n" +
                     "Invalid: (a*) group aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbb\r\n\r\n" +
                     Arrays.stream(_0Args.values())
