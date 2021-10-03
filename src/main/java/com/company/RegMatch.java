@@ -153,8 +153,9 @@ public class RegMatch {
     }
 
     private static String filterDocLines(String search) {
+        String lowered = search.toLowerCase();
         return Arrays.stream(manual.split("[\r\n]+"))
-                .filter(s -> s.contains(search))
+                .filter(s -> s.toLowerCase().contains(lowered))
                 .reduce((s, s2) -> s + "\r\n" + s2)
                 .orElse("No match found.");
     }

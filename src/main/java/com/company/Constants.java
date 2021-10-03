@@ -33,7 +33,7 @@ public class Constants {
                     +")) +'(?<"+arg2+">.+)'");
 
     enum _1Args {
-        grep("Prints lines from regex-javadoc that contains specified substring.", "grep '[substring]'");
+        grep("Performs case-insensitive search, and print lines with match.", "grep '[substring]'");
 
         public final String synopsis;
         public final String description;
@@ -250,5 +250,4 @@ public class Constants {
             "    (?<=X)                  X, via zero-width positive lookbehind\n" +
             "    (?<!X)                  X, via zero-width negative lookbehind\n" +
             "    (?>X)                   X, as an independent, non-capturing group\n";
-
 }
