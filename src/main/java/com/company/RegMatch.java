@@ -1,7 +1,5 @@
 package com.company;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,74 +11,73 @@ import java.util.regex.PatternSyntaxException;
 import static com.company.Constants.*;
 import static com.company.Constants.fallbackMessage;
 
-public class RegMatch implements Server {
+public class RegMatch {
 
-    @Override
-    public void init(Socket session, Receiver<String> input, Dispatcher<String> output) throws IOException {
-        output.dispatch("\r\n\r\n" + welcomeMessage);
+
+    public static void start(Receiver<String> source, Dispatcher<String> sink) {
+        preQuery(source, sink);
+        while (true) onQuery(source, sink);
     }
 
-    @Override
-    public void execute(Socket session, Receiver<String> input, Dispatcher<String> output) throws IOException {
+    private static void preQuery(Receiver<String> source, Dispatcher<String> sink) {
+        sink.dispatch("\r\n\r\n" + welcomeMessage);
+    }
 
-        output.dispatch(prompReady);
-        String in = input.get().trim();
+    private static void onQuery(Receiver<String> source, Dispatcher<String> sink) {
+
+        sink.dispatch(promptReady);
+        String in = source.get().trim();
 
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             int i = 0;
+
             @Override
             public void run() {
-                if(session.isClosed()){
-                    this.cancel();
-                    return;
+                switch (i) {
+                    case 0:
+                        sink.dispatch("Working...");
+                        break;
+                    case 1:
+                        sink.dispatch("...");
+                        break;
+                    case 2:
+                        sink.dispatch("...");
+                        break;
+                    case 3:
+                        sink.dispatch("...............");
+                        break;
+                    case 4:
+                        sink.dispatch("...............");
+                        break;
+                    case 5:
+                        sink.dispatch(("\r\n^FLAG^" + UUID.randomUUID().toString().replace("-", "") + "$FLAG$\r\n"));
+                        break;
+                    case 6:
+                        sink.dispatch("Error: non-responsive thread! Terminating process.\r\n");
+                        System.exit(-1);
+                    default:
+                        this.cancel();
                 }
-                try {
-                    switch (i){
-                        case 0:
-                            output.dispatch("Working...");
-                            break;
-                        case 1:
-                            output.dispatch("...");
-                            break;
-                        case 2:
-                            output.dispatch("...");
-                            break;
-                        case 3:
-                            output.dispatch("...............");
-                            break;
-                        case 4:
-                            output.dispatch("...............");
-                            break;
-                        case 5:
-                            output.dispatch(("\r\n^FLAG^" + UUID.randomUUID().toString().replace("-","") + "$FLAG$\r\n"));
-                            break;
-                        case 6:
-                            output.dispatch("Error! Child thread not responding. Terminating process.\r\n");
-                            session.close();
-                            System.exit(-1);
-                        default: this.cancel();
-                    }
-                    i++;
-                } catch (IOException ignored){}
+                i++;
             }
         };
         timer.schedule(timerTask, 3000, 3000);
 
         Matcher query = _2arg.matcher(in);
-        if (query.find()) {
+        if (query.matches()) {
             switch (_2Args.valueOf(query.group(cmd))) {
                 case matches:
-                    output.dispatch(isMatch(query.group(arg1), query.group(arg2)));
+                    sink.dispatch(isMatch(query.group(arg1), query.group(arg2)));
                     break;
                 case group:
-                    output.dispatch(groupScan(query.group(arg1), query.group(arg2)));
+                    sink.dispatch(groupScan(query.group(arg1), query.group(arg2)));
                     break;
                 case contains:
-                    output.dispatch(query.group(arg1).contains(query.group(arg2)) ? "True" : "False");
+                    sink.dispatch(query.group(arg1).contains(query.group(arg2)) ? "True" : "False");
                     break;
                 case indexOf:
-                    output.dispatch(String.valueOf(query.group(arg1).indexOf(query.group(arg2))));
+                    sink.dispatch(String.valueOf(query.group(arg1).indexOf(query.group(arg2))));
                     break;
             }
             timer.cancel();
@@ -89,10 +86,10 @@ public class RegMatch implements Server {
 
 
         query = _1arg.matcher(in);
-        if (query.find()) {
+        if (query.matches()) {
             switch (_1Args.valueOf(query.group(cmd))) {
-                case regex:
-                    output.dispatch(filterDocLines(query.group(arg1)));
+                case grep:
+                    sink.dispatch(filterDocLines(query.group(arg1)));
                     break;
             }
             timer.cancel();
@@ -101,26 +98,26 @@ public class RegMatch implements Server {
 
 
         query = _0arg.matcher(in);
-        if (query.find()) {
+        if (query.matches()) {
             switch (_0Args.valueOf(query.group(cmd))) {
                 case help:
-                    output.dispatch(welcomeMessage);
+                    sink.dispatch(welcomeMessage);
                     break;
                 case cmd:
-                    output.dispatch(commands);
+                    sink.dispatch(commands);
                     break;
-                case changelog:
-                    output.dispatch(changelog);
+                case releases:
+                    sink.dispatch(releaseNote);
                     break;
-                case regex:
-                    output.dispatch(manual);
+                case doc:
+                    sink.dispatch(manual);
                     break;
                 case quit:
                     timer.cancel();
-                    output.dispatch("Goodbye!\r\n");
-                    session.close();
+                    sink.dispatch("Goodbye!\r\n");
+                    System.exit(0);
             }
-        } else if (!in.isEmpty()) output.dispatch(fallbackMessage);
+        } else if (!in.isEmpty()) sink.dispatch(fallbackMessage);
         timer.cancel();
     }
 
@@ -131,7 +128,7 @@ public class RegMatch implements Server {
         Matcher pattern;
         try {
             pattern = Pattern.compile(regex).matcher(arg);
-        } catch (PatternSyntaxException e){
+        } catch (PatternSyntaxException e) {
             return "Syntax error: " + e.getDescription();
         }
         if (pattern.find()) {
@@ -150,14 +147,15 @@ public class RegMatch implements Server {
             return "String to match contains: " + arg.length() + " codepoints. Max permitted is 1000.";
         try {
             return Pattern.compile(regex).matcher(arg).matches() ? "True" : "False";
-        } catch (PatternSyntaxException e){
+        } catch (PatternSyntaxException e) {
             return "Syntax error: " + e.getDescription();
         }
     }
 
     private static String filterDocLines(String search) {
+        String lowered = search.toLowerCase();
         return Arrays.stream(manual.split("[\r\n]+"))
-                .filter(s -> s.contains(search))
+                .filter(s -> s.toLowerCase().contains(lowered))
                 .reduce((s, s2) -> s + "\r\n" + s2)
                 .orElse("No match found.");
     }
