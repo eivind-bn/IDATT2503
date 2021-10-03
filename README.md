@@ -8,7 +8,7 @@ will be printed. No source code inspection necessary to acquire the flag.
 
 ## Difficulty:
 This challenge might prove difficult if you’re unfamiliar with regular expressions,
-but moderate if you have some familiarity with the constructs, and have mastered the arts of google.
+but moderate if you have mastered the arts of google, and some understanding of regex constructs.
 
 ## Setup instructions
 
@@ -24,4 +24,4 @@ so it should be executed through a terminal.
 
 2. Time complexity is of the essence. Can you worsen it somehow?
 
-3. Length doesn't matter. Evil regexes do.
+3. Size doesn't matter. Evil regexes do.
