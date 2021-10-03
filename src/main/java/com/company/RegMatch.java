@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,7 +15,7 @@ import static com.company.Constants.fallbackMessage;
 public class RegMatch {
 
 
-    public static void start(Receiver<String> source, Dispatcher<String> sink) {
+    public static void start(Receiver<String> source, Dispatcher<String> sink) throws IOException {
         preQuery(source, sink);
         while (true) onQuery(source, sink);
     }
@@ -23,7 +24,7 @@ public class RegMatch {
         sink.dispatch("\r\n\r\n" + welcomeMessage);
     }
 
-    private static void onQuery(Receiver<String> source, Dispatcher<String> sink) {
+    private static void onQuery(Receiver<String> source, Dispatcher<String> sink) throws IOException {
 
         sink.dispatch(promptReady);
         String in = source.get().trim();
