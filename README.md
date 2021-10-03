@@ -1,5 +1,4 @@
 # RegMatch - Capture the flag challenge
-
 This repository contains a simple Cli Regex tool server with a not so simple exploit. This server is purposely 
 restrictive on user-input to limit the attack-vector scope. Your objective is to find any oversight or loophole left
 in the open.
@@ -21,12 +20,8 @@ so it should be executed through a terminal.
 
 
 ## Hints (SPOILER ALERT)
-
 1. The system rejects long patterns and match strings. Why? Is there any loophole, or oversight?
 
 2. Time complexity is of the essence. Can you worsen it somehow?
 
 3. Length doesn't matter. Evil regexes do.
-
-
-

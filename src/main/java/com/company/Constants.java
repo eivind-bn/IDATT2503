@@ -2,7 +2,6 @@ package com.company;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class Constants {
@@ -66,12 +65,14 @@ public class Constants {
                     Arrays.stream(_0Args.values()).map(Enum::name).reduce((s, s2) -> s + "|" + s2).orElse("")
                     +"))");
 
+
     public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 (openjdk16 build, Java 16)\r\n" +
             "Getting started 101:\r\n" +
             Arrays.stream(_0Args.values())
                     .map(args -> args.name() + " - " + args.description)
                     .reduce((s1, s2) -> s1 + "\r\n" + s2)
                     .orElse("");
+
 
     public static final String releaseNote =
             "1.0.0 - Official release.\r\n" +

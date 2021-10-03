@@ -8,5 +8,6 @@ public class Main {
 
     public static void main(String[] args) {
         RegMatch.start(sc::nextLine, System.out::print);
+
     }
 }
