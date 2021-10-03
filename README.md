@@ -8,7 +8,7 @@ will be printed. No source code inspection necessary to acquire the flag.
 
 ## Difficulty:
 This challenge might prove difficult if you’re unfamiliar with regular expressions,
-but moderate if you have mastered the arts of google, and some understanding of regex constructs.
+but moderate if you understand how most regex constructs work, both in day-to-day use, and under-the-hood.
 
 ## Setup instructions
 
