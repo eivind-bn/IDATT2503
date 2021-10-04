@@ -22,6 +22,6 @@ so it should be executed through a terminal.
 ## Hints (SPOILER ALERT)
 1. The system rejects long patterns and match strings. Why? Is there any loophole, or oversight?
 
-2. Time complexity is of the essence. Can you worsen it somehow?
+2. Time complexity is of the essence.
 
 3. Size doesn't matter. Evil regexes do.
