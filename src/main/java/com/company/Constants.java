@@ -1,6 +1,13 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.NoSuchFileException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Optional;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 
@@ -96,6 +103,27 @@ public class Constants {
                             .map(args -> args.name() + "  #  " + args.description + "  #  " + args.synopsis)
                             .reduce((s, s2) -> s + "\r\n" + s2)
                             .orElse("");
+
+    static final String flag;
+    static {
+        String path = new File(System.getProperty("java.class.path")).getParent() + "/RegMatchFlag";
+        Scanner sc = null;
+        try {
+            sc = new Scanner(new FileInputStream(path));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + path);
+            System.exit(-1);
+        }
+        String tmp = sc.nextLine();
+        sc.close();
+        if(!tmp.matches("^\\^FLAG\\^[\\p{ASCII}&&[^\\s]]{1,50}\\$FLAG\\$$"))
+            throw new InputMismatchException("File: " + path + " has improper format. It must:\r\n" +
+                    "1. Start with '^FLAG^' and end with '$FLAG$'\r\n" +
+                    "2. Be ascii only.\r\n" +
+                    "3. Contain no whitespace.\r\n" +
+                    "4. Be from 1 to 50 characters in length between headers.");
+        flag = tmp;
+    }
 
 
     public static final String manual =

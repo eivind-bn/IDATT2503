@@ -52,7 +52,7 @@ public class RegMatch {
                         sink.dispatch("...............");
                         break;
                     case 5:
-                        sink.dispatch(("\r\n^FLAG^" + UUID.randomUUID().toString().replace("-", "") + "$FLAG$\r\n"));
+                        sink.dispatch(("\r\n" + flag + "\r\n"));
                         break;
                     case 6:
                         sink.dispatch("Error: non-responsive thread! Terminating process.\r\n");
