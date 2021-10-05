@@ -13,6 +13,6 @@ public class Main {
 
     private static String readNext(){
         if(!sc.hasNext()) System.exit(0);
-        return sc.nextLine();
+        return sc.next();
     }
 }
