@@ -12,7 +12,12 @@ public class Main {
     }
 
     private static String readNext(){
-        if(!sc.hasNext()) System.exit(0);
-        return sc.nextLine();
+        while (sc.hasNext()){
+            String next = sc.nextLine();
+            if(next.strip().equals("")) continue;
+            return next;
+        }
+        System.exit(0);
+        throw new RuntimeException();
     }
 }
