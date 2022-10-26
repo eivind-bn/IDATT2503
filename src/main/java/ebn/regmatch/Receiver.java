@@ -1,4 +1,4 @@
-package com.company;
+package ebn.regmatch;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.company;
+package ebn.regmatch;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import static com.company.Constants.*;
-import static com.company.Constants.fallbackMessage;
+import static ebn.regmatch.Constants.*;
+import static ebn.regmatch.Constants.fallbackMessage;
 
 public class RegMatch {
 

@@ -1,4 +1,4 @@
-package com.company;
+package ebn.regmatch;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -66,7 +66,14 @@ public class Constants {
                     +"))");
 
 
-    public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 (openjdk16 build, Java 16)\r\n" +
+    public static final String javaJDKVersion = System.getProperty("java.vendor.version");
+
+
+    public static final String javaVMVersion = System.getProperty("java.vm.version");
+
+
+    public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 " +
+            "(" + javaJDKVersion + " build, Java " + javaVMVersion + ")\r\n" +
             "Getting started 101:\r\n" +
             Arrays.stream(_0Args.values())
                     .map(args -> args.name() + " - " + args.description)
