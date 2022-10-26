@@ -1,10 +1,27 @@
 package ebn.regmatch;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 
 public class Constants {
+
+    public static final Properties resourceProperties = new Properties();
+
+    static {
+        try {
+            InputStream inputStream = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream("project.properties");
+            resourceProperties.load(inputStream);
+            inputStream.close();
+        } catch (IOException | NullPointerException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     static final String promptReady = "\r\n\r\nregMatch> ";
     static final String cmd = "cmd";
@@ -66,14 +83,17 @@ public class Constants {
                     +"))");
 
 
+    public static final String regMatchVersion = resourceProperties.getProperty("version");
+
     public static final String javaJDKVersion = System.getProperty("java.vendor.version");
 
 
     public static final String javaVMVersion = System.getProperty("java.vm.version");
 
 
-    public static final String welcomeMessage = "Welcome to RegMatch 1.0.1 " +
-            "(" + javaJDKVersion + " build, Java " + javaVMVersion + ")\r\n" +
+    public static final String welcomeMessage =
+            "Welcome to RegMatch " + regMatchVersion +
+            " (" + javaJDKVersion + " build, Java " + javaVMVersion + ")\r\n" +
             "Getting started 101:\r\n" +
             Arrays.stream(_0Args.values())
                     .map(args -> args.name() + " - " + args.description)
